@@ -6,17 +6,17 @@
 
 <style>
     /* Remove ALL scrollbars inside the iframe */
-  html, body {
-    overflow-x: hidden;  /* Prevent horizontal scrolling */
-    overflow-y: hidden;     /* Allow vertical scroll so cards won't be cut */
-    scrollbar-width: none; /* Hide scrollbar on Firefox */
-    }
+  /* Prevent ALL internal scrolling in iframe */
+html, body {
+    overflow: hidden !important;    /* No scrolling inside iframe */
+    scrollbar-width: none !important;
+}
 
-/* Hide scrollbar on Chrome, Edge, Safari */
-    html::-webkit-scrollbar,
-    body::-webkit-scrollbar {
-    display: none;
-    }
+/* Hide scrollbar in Chrome/Safari/Edge */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none !important;
+}
     body {
         font-family: Arial, sans-serif;
         background: #ffffff;
@@ -181,6 +181,7 @@ reviews.concat(reviews).forEach(r => track.appendChild(createCard(r)));
 
 </body>
 </html>
+
 
 
 
