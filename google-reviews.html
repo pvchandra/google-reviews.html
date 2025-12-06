@@ -5,6 +5,17 @@
 <title>Reviews Slider</title>
 
 <style>
+    /* Remove ALL scrollbars inside the iframe */
+    html, body {
+        overflow: hidden;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none; /* Chrome, Edge, Safari */
+    }
+
     body {
         font-family: Arial, sans-serif;
         background: #fff8ef;
@@ -24,14 +35,14 @@
         width: 100%;
         overflow: hidden;
         position: relative;
-        padding: 30px 0;
+        padding: 25px 0;
     }
 
     /* Slider row */
     .carousel-track {
         display: flex;
         gap: 20px;
-        animation: moveLeft 15s linear infinite;
+        animation: moveLeft 28s linear infinite;  /* SPEED HERE */
     }
 
     @keyframes moveLeft {
@@ -87,6 +98,7 @@
         font-size: 14px;
         color: #333;
         white-space: pre-line;
+        line-height: 1.35;
     }
 </style>
 </head>
@@ -100,7 +112,7 @@
 </div>
 
 <script>
-// Full JSON reviews (pasted from your uploaded file)
+// Full JSON reviews
 const reviews = [
     {"reviewer":{"displayName":"Neha Agarwal"},"starRating":"FIVE","comment":"I would really like to appreciate your skills of teaching, also your sound knowledge of siebel👌🏻👌🏻👌🏻👌🏻👏🏻Lucky to get your guidance!"},
     {"reviewer":{"displayName":"Rajeev Hury"},"starRating":"FIVE","comment":"\"I'm writing this review after completing the Siebel Essentials Training and choosing my second course, Siebel EAI (Integration). Chandra's method of teaching is excellent. He provides all the necessary documents at the end of each session, and the concepts are taught in-depth, following industry standards. I highly recommend this course.\""},
@@ -168,5 +180,3 @@ reviews.concat(reviews).forEach(r => track.appendChild(createCard(r)));
 
 </body>
 </html>
-
-
