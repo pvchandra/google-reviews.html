@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reviews Slider</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #fff8ef;
+        margin: 0;
+        padding: 0;
+    }
+
+    .review-title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+
+    /* Slider container */
+    .carousel-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        padding: 30px 0;
+    }
+
+    /* Slider row */
+    .carousel-track {
+        display: flex;
+        gap: 20px;
+        animation: moveLeft 45s linear infinite;
+    }
+
+    @keyframes moveLeft {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    /* Review card */
+    .review-card {
+        width: 280px;
+        padding: 18px;
+        background: #ffe9d2;
+        border-radius: 14px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Avatar */
+    .avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .name {
+        font-size: 17px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .verified {
+        color: #ff0000;
+        font-size: 14px;
+        margin-left: 6px;
+    }
+
+    .stars {
+        color: #ffa500;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .comment {
+        font-size: 14px;
+        color: #333;
+        white-space: pre-line;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="review-title">What Our Students Say (Google Reviews)</div>
+
+<div class="carousel-container">
+    <div class="carousel-track" id="reviewTrack"></div>
+</div>
+
+<script>
+// Full JSON reviews (pasted from your uploaded file)
+const reviews = [
+    {"reviewer":{"displayName":"Neha Agarwal"},"starRating":"FIVE","comment":"I would really like to appreciate your skills of teaching, also your sound knowledge of siebel👌🏻👌🏻👌🏻👌🏻👏🏻Lucky to get your guidance!"},
+    {"reviewer":{"displayName":"Rajeev Hury"},"starRating":"FIVE","comment":"\"I'm writing this review after completing the Siebel Essentials Training and choosing my second course, Siebel EAI (Integration). Chandra's method of teaching is excellent. He provides all the necessary documents at the end of each session, and the concepts are taught in-depth, following industry standards. I highly recommend this course.\""},
+    {"reviewer":{"displayName":"Mani Ashok"},"starRating":"FIVE","comment":"*Chandra* sir always there to help students at a anytime.\nHe explained very well in the course with detail explanation as well as practical questions to improve more knowledge in Siebel CRM configuration, workflows and scripting.\nDefinitely I suggest you all if your ready to switch to siebel ,please consult Chandra sir."},
+    {"reviewer":{"displayName":"gangisetty sunilkumar"},"starRating":"FIVE","comment":"PV Chandra Sir is one of the best Siebel trainers. He provides both theoretical and practical classes with real-time examples. I would strongly suggest him to anyone who wants to become a pro in Siebel Technologies."},
+    {"reviewer":{"displayName":"Aadhya Bhalu"},"starRating":"FIVE","comment":"I opted this training to enhance my knowledge in Siebel CRM, it is very helpful because trainer Chandra has covered the topics from very basic & important topics along with the Course which will be an add-ons for the working professionals. I felt it is very good opportunity to learn and grasp the knowledge to people who chose their career in Siebel.\n\nThe assignments given during the course will help us to brainstorm and completing them gives us an experience of real time scenarios in the projects.\n\nThank you Chandra for the Knowledge I have gained and all the guidance throughout the course."},
+    {"reviewer":{"displayName":"Ramya"},"starRating":"FIVE","comment":"Chandra sir is very knowledgeable, professional and dedicated in his teaching. He teaches with indepth knowledge and makes it as simple as possible for his students to understand. Sir is ready to extend his support and help even after training when in need. Thanks for your support sir."},
+    {"reviewer":{"displayName":"Vamsi Pranav V"},"starRating":"FOUR","comment":"Got a detailed explanation on the subject"},
+    {"reviewer":{"displayName":"khalod zeko22"},"starRating":"FIVE","comment":"I enjoyed and learnt a lot from Mr Chandra course. It was comprehensive course. He helped us in anytime we asked him. Highly appreciate your explanation and support"},
+    {"reviewer":{"displayName":"sahiti sripadi"},"starRating":"FIVE","comment":"Good explanation with clear concepts"},
+    {"reviewer":{"displayName":"sunny goud"},"starRating":"FIVE","comment":"Hi Chandra, I really like this siebel class because all lectures, assignments was very detailed and organized. I have to say this class made me more aware of all topics.\n\nThank you so much sir .."},
+    {"reviewer":{"displayName":"kumar sarath kumar"},"starRating":"FIVE","comment":"One of the Best  siebel crm trainer\nChandra sir, thank you for giving siebel knowledge sir"},
+    {"reviewer":{"displayName":"Sravan Kumar"},"starRating":"FIVE","comment":"He is the best trainer for Siebel. As in market. He not only trains but also cares whether we are getting the subject or not. He explains in a detail manner and very good."},
+    {"reviewer":{"displayName":"Sareef Md"},"starRating":"FIVE","comment":"Simple and easy to understand siebel configuration and work flow.. what ever chandhra teached blindly u will get knowledge on conf and workflow.. but u need to spend and think to understand to get the knowledge more on escripting..best trainer as per current market"},
+    {"reviewer":{"displayName":"vishal 57"},"starRating":"FIVE","comment":"In journey of csw training with chandra, i improved alot and had good exposure over the subject...\nThanks Chandra..."},
+    {"reviewer":{"displayName":"Gopi Pendrepu"},"starRating":"FIVE","comment":"Chadra sir having so much patience\nAnd cover the whole siebel subject inch by inch when we struggling with any issue definitely he will help us\nIts really good platform for who wants to learn siebel"},
+    {"reviewer":{"displayName":"vinoth balaji777"},"starRating":"FIVE","comment":"1.He given the training very good and also he provide all the session very dedicatedly not like jumping here and their\n2. He updating the  knowledge to every one and given assignment he follow regularly with every one"},
+    {"reviewer":{"displayName":"charitha 123"},"starRating":"FIVE","comment":"For Freshers, this training is so important. Each and Every topic he explained Clearly which helped to understand easily. Thanks for your Patience & support."},
+    {"reviewer":{"displayName":"devi kiran"},"starRating":"FIVE","comment":"*Thank you for your patience and guidance during the computer course .\n*I would like to express my gratitude for your exceptional instruction throughout the  course.\n*Your expertise and dedication made the learning experience both enjoyable and valuable.\"\n*\"I appreciate the way you encouraged active participation and fostered a collaborative learning environment.”"},
+    {"reviewer":{"displayName":"roja rajendran"},"starRating":"FIVE","comment":"Wonderful training given by Trainer.\nExplained every topic clearly and precisely which helped to understand easily."},
+    {"reviewer":{"displayName":"chitra s"},"starRating":"FIVE","comment":"I had a great session on CSW Siebel Training, improved my skills and knowledge. Our trainer Chandra  is very helpful and interactive. Very Good helpful for beginners."}
+];
+
+// Avatar colors
+const colors = ["#ff6b6b", "#6b8cff", "#ffb86b", "#4cd964", "#d76bff", "#009688"];
+
+const track = document.getElementById("reviewTrack");
+
+function trimComment(text) {
+    return text.length > 520 ? text.substring(0, 520).trim() + " ..." : text;
+}
+
+function createCard(r) {
+    const div = document.createElement("div");
+    div.className = "review-card";
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.style.background = colors[Math.floor(Math.random()*colors.length)];
+    avatar.textContent = r.reviewer.displayName.charAt(0).toUpperCase();
+
+    const name = document.createElement("div");
+    name.className = "name";
+    name.innerHTML = r.reviewer.displayName + ' <span class="verified">✔</span>';
+
+    const stars = document.createElement("div");
+    stars.className = "stars";
+    stars.textContent = r.starRating === "FOUR" ? "★★★★☆" : "★★★★★";
+
+    const comment = document.createElement("div");
+    comment.className = "comment";
+    comment.textContent = trimComment(r.comment);
+
+    div.appendChild(avatar);
+    div.appendChild(name);
+    div.appendChild(stars);
+    div.appendChild(comment);
+
+    return div;
+}
+
+// Duplicate list for infinite scroll
+reviews.concat(reviews).forEach(r => track.appendChild(createCard(r)));
+</script>
+
+</body>
+</html>
